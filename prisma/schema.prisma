@@ -26,6 +26,7 @@ model thread {
   title      String   
   message    String   
   user_id    Int
+  page_id    Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   posts post[]
