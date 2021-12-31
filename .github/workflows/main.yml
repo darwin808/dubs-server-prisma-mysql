@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: wtf
+      - name: initialize the prisma
         run: yarn prisma:generate
 
       - name: serverless deploy
