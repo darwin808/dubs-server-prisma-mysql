@@ -7,12 +7,13 @@ const headers = {
   "Content-Type": "application/json",
 };
 exports.handler = async (event, context, callback) => {
-  const { title, message } = JSON.parse(event.body);
+  const { title, message, user_id } = JSON.parse(event.body);
   try {
     const newThread = await prisma.thread.create({
       data: {
         title,
         message,
+        user_id,
       },
     });
     return {
