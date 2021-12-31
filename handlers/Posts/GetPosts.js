@@ -8,11 +8,7 @@ const headers = {
 };
 exports.handler = async (event, context, callback) => {
   try {
-    const posts = await prisma.thread.findMany({
-      where: {
-        title: "",
-      },
-    });
+    const posts = await prisma.thread.findMany();
     return {
       statusCode: 200,
       headers,
