@@ -17,30 +17,35 @@ functions:
       - http:
           method: GET
           path: /posts
+          cors: true
   CreatePost:
     handler: handlers/Posts/CreatePost.handler
     events:
       - http:
           method: POST
           path: /posts
+          cors: true
   GetThreads:
     handler: handlers/Thread/GetThreads.handler
     events:
       - http:
           method: GET
           path: /thread/{id}
+          cors: true
   CreateThread:
     handler: handlers/Thread/CreateThread.handler
     events:
       - http:
           method: POST
           path: /thread
+          cors: true
   GetUsers:
     handler: handlers/User/GetUsers.handler
     events:
       - http:
           method: GET
           path: /user
+          cors: true
   CreateUser:
     handler: handlers/User/CreateUser.handler
     events:
