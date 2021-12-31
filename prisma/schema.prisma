@@ -3,29 +3,35 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model post {
-  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  id         Int      @id @default(autoincrement()) 
   title      String   
   message    String   
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  user_id    Int
+  thread_id  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user user  @relation(fields: [user_id] , references: [id])
+  thread thread  @relation(fields: [thread_id] , references: [id])
 }
 
 model thread {
-  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  id         Int      @id @default(autoincrement()) 
   title      String   
   message    String   
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  posts post[]
 }
 
 model user {
-  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  id         Int      @id @default(autoincrement()) 
   username   String   
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  posts post[]
 }
