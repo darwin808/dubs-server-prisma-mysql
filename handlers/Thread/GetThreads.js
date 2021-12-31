@@ -1,8 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
-const { headers } = require("../../constants");
 
 const prisma = new PrismaClient();
-
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Content-Type": "application/json",
+};
 exports.handler = async (event, context, callback) => {
   try {
     const thread = await prisma.thread.findMany();

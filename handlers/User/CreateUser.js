@@ -2,8 +2,10 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const { headers } = require("../../constants");
-
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Content-Type": "application/json",
+};
 exports.handler = async (event, context, callback) => {
   const { username } = JSON.parse(event.body);
   try {
