@@ -13,11 +13,18 @@ exports.handler = async (event, context, callback) => {
         id: user_id,
       },
     });
-    if (!isUserExist) {
+    const isThreadExist = await prisma.thread.findUnique({
+      where: {
+        id: thread_id,
+      },
+    });
+    if (!isUserExist || !isThreadExist) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify("User not Found"),
+        body: JSON.stringify({
+          message: "Try Again",
+        }),
       };
     }
 

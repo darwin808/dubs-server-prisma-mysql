@@ -9,6 +9,20 @@ const headers = {
 exports.handler = async (event, context, callback) => {
   const { title, message, user_id } = JSON.parse(event.body);
   try {
+    const isUserExist = await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+    });
+    if (!isUserExist) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          message: "no user",
+        }),
+      };
+    }
     const newThread = await prisma.thread.create({
       data: {
         title,
