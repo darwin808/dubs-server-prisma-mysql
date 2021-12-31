@@ -41,7 +41,7 @@ functions:
       - http:
           method: GET
           path: /posts
-  GetPosts:
+  GetPostsss:
     handler: handlers/Posts/GetPosts.handler
     events:
       - http:
