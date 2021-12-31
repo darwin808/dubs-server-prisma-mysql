@@ -1,4 +1,4 @@
-service: lskdjfglksdjf;sjdlfkjsdlkfjsaldkjflsakdjfl
+service: dubsserver3
 plugins:
   - serverless-dotenv-plugin
 
@@ -11,36 +11,6 @@ provider:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
 
 functions:
-  status:
-    handler: handlers/status.handler
-    events:
-      - http:
-          method: GET
-          path: /
-  seed:
-    handler: handlers/seed.handler
-    events:
-      - http:
-          method: GET
-          path: /seed
-  getUsers:
-    handler: handlers/users.handler
-    events:
-      - http:
-          method: GET
-          path: /users
-  createUser:
-    handler: handlers/create-user.handler
-    events:
-      - http:
-          method: POST
-          path: /users
-  getPosts:
-    handler: handlers/posts.handler
-    events:
-      - http:
-          method: GET
-          path: /posts
   GetPosts:
     handler: handlers/Posts/GetPosts.handler
     events:
