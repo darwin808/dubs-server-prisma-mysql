@@ -16,7 +16,7 @@ functions:
     events:
       - http:
           method: GET
-          path: /posts
+          path: /posts/{id}
           cors: true
   CreatePost:
     handler: handlers/Posts/CreatePost.handler

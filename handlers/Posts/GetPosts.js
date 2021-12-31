@@ -8,12 +8,17 @@ const headers = {
   "Access-Control-Allow-Methods": "GET",
 };
 exports.handler = async (event, context, callback) => {
+  const { id } = event.pathParameters;
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      where: {
+        thread_id: parseInt(id),
+      },
+    });
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ asdf: posts }),
+      body: JSON.stringify({ posts }),
     };
   } catch (error) {
     console.error(error);
