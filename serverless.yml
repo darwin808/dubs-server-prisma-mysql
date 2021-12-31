@@ -16,7 +16,37 @@ functions:
     events:
       - http:
           method: GET
-          path: /api
+          path: /posts
+  CreatePost:
+    handler: handlers/Posts/CreatePost.handler
+    events:
+      - http:
+          method: POST
+          path: /posts
+  GetThreads:
+    handler: handlers/Thread/GetThreads.handler
+    events:
+      - http:
+          method: GET
+          path: /thread
+  CreateThread:
+    handler: handlers/Thread/CreateThread.handler
+    events:
+      - http:
+          method: POST
+          path: /thread
+  GetUsers:
+    handler: handlers/User/GetUsers.handler
+    events:
+      - http:
+          method: GET
+          path: /user
+  CreateUser:
+    handler: handlers/User/CrateUser.handler
+    events:
+      - http:
+          method: POST
+          path: /user
 
 # only include the Prisma binary required on AWS Lambda while packaging
 package:

@@ -5,15 +5,20 @@ const prisma = new PrismaClient();
 const { headers } = require("../../constants");
 
 exports.handler = async (event, context, callback) => {
+  const { username } = JSON.parse(event.body);
   try {
-    const posts = await prisma.post.findMany();
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+      },
+    });
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ asdf: posts }),
+      body: JSON.stringify({ newUser }),
     };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return {
       statusCode: 500,
       headers,

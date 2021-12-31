@@ -1,16 +1,15 @@
 const { PrismaClient } = require("@prisma/client");
+const { headers } = require("../../constants");
 
 const prisma = new PrismaClient();
 
-const { headers } = require("../../constants");
-
 exports.handler = async (event, context, callback) => {
   try {
-    const posts = await prisma.post.findMany();
+    const thread = await prisma.thread.findMany();
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ asdf: posts }),
+      body: JSON.stringify({ thread }),
     };
   } catch (error) {
     console.error(error);
