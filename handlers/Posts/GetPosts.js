@@ -8,7 +8,7 @@ const headers = {
 };
 exports.handler = async (event, context, callback) => {
   try {
-    const posts = await prisma.post.findMany({});
+    const posts = await prisma.post.findMany();
     return {
       statusCode: 200,
       headers,
