@@ -47,6 +47,7 @@ functions:
       - http:
           method: POST
           path: /user
+          cors: true
 
 # only include the Prisma binary required on AWS Lambda while packaging
 package:
