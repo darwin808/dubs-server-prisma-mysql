@@ -15,6 +15,7 @@ model post {
   message    String   
   user_id    Int
   thread_id  Int
+  page_id    Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user user  @relation(fields: [user_id] , references: [id])

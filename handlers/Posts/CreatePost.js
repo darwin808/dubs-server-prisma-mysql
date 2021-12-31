@@ -7,7 +7,9 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { title, message, user_id, thread_id } = JSON.parse(event.body);
+  const { title, message, user_id, thread_id, page_id } = JSON.parse(
+    event.body
+  );
   try {
     const isUserExist = await prisma.user.findUnique({
       where: {
@@ -35,6 +37,7 @@ exports.handler = async (event, context, callback) => {
         message,
         user_id,
         thread_id,
+        page_id,
       },
     });
     return {
