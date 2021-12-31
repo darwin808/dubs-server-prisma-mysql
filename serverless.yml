@@ -1,4 +1,4 @@
-service: lskdjfglksdjf;sjdlfkjsdlkfjsaldkjflsakdjfl
+service: dubsserver3
 plugins:
   - serverless-dotenv-plugin
 
