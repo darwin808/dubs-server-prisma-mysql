@@ -6,3 +6,26 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model post {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  title      String   
+  message    String   
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
+
+model thread {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  title      String   
+  message    String   
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
+
+model user {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  username   String   
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
