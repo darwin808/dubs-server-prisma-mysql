@@ -42,7 +42,7 @@ functions:
           method: GET
           path: /user
   CreateUser:
-    handler: handlers/User/CrateUser.handler
+    handler: handlers/User/CreateUser.handler
     events:
       - http:
           method: POST
