@@ -13,8 +13,12 @@ model post {
   id         Int      @id @default(autoincrement()) 
   title      String   
   message    String   
+  user_id    Int
+  thread_id  Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  user user  @relation(fields: [user_id] , references: [id])
+  thread thread  @relation(fields: [thread_id] , references: [id])
 }
 
 model thread {
@@ -23,6 +27,7 @@ model thread {
   message    String   
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  posts post[]
 }
 
 model user {
@@ -30,4 +35,5 @@ model user {
   username   String   
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  posts post[]
 }
