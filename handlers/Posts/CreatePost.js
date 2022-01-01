@@ -34,7 +34,7 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
-    const newMedia = media && (await axios.post(url, { file: media }));
+    const newMedia = (await media) && (await axios.post(url, { file: media }));
 
     const newPost = await prisma.post.create({
       data: {
