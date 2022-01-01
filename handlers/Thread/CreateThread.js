@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { default: axios } = require("axios");
 
 const prisma = new PrismaClient();
 
@@ -7,8 +8,9 @@ const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Methods": "POST",
 };
+const url = "https://65pybfy0kk.execute-api.us-west-1.amazonaws.com/dev/images";
 exports.handler = async (event, context, callback) => {
-  const { title, message, user_id, page_id } = JSON.parse(event.body);
+  const { title, message, user_id, page_id, media } = JSON.parse(event.body);
   try {
     const isUserExist = await prisma.user.findUnique({
       where: {
@@ -24,12 +26,14 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
+    const newMedia = await axios.post(url, { file: media });
     const newThread = await prisma.thread.create({
       data: {
         title,
         message,
         user_id,
         page_id,
+        media: newMedia.location || "",
       },
     });
     return {
@@ -42,7 +46,10 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify(error),
+      body: JSON.stringify({
+        error,
+        body: event.body,
+      }),
     };
   }
 };
