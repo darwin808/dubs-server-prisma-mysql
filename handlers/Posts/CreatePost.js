@@ -34,7 +34,7 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
-    const newMedia = (await media) && (await axios.post(url, { file: media }));
+    const newMedia = await axios.post(url, { file: media });
 
     const newPost = await prisma.post.create({
       data: {
@@ -47,6 +47,7 @@ exports.handler = async (event, context, callback) => {
         media_small: newMedia?.data?.uploadResult_small?.Location || "",
       },
     });
+
     return {
       statusCode: 200,
       headers,

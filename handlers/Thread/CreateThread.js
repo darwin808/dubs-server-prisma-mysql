@@ -27,7 +27,7 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
-    const newMedia = (await media) && (await axios.post(url, { file: media }));
+    const newMedia = await axios.post(url, { file: media });
 
     const newThread = await prisma.thread.create({
       data: {
@@ -35,8 +35,8 @@ exports.handler = async (event, context, callback) => {
         message,
         user_id,
         page_id,
-        media: newMedia.data.uploadResult?.Location || "",
-        media_small: newMedia.data.uploadResult_small?.Location || "",
+        media: newMedia?.data?.uploadResult?.Location || "",
+        media_small: newMedia?.data?.uploadResult_small?.Location || "",
       },
     });
     return {
