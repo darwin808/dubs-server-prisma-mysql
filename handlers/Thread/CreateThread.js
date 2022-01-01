@@ -33,7 +33,7 @@ exports.handler = async (event, context, callback) => {
         message,
         user_id,
         page_id,
-        media: newMedia.location || "",
+        media: newMedia.uploadResult.Location || "",
       },
     });
     return {
