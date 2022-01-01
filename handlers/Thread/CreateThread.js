@@ -27,6 +27,7 @@ exports.handler = async (event, context, callback) => {
       };
     }
     const newMedia = await axios.post(url, { file: media });
+    console.log(newMedia, "DSDDDDDDDDDDDDDDDDDDDDDDDD");
 
     const newThread = await prisma.thread.create({
       data: {
@@ -49,7 +50,6 @@ exports.handler = async (event, context, callback) => {
       headers,
       body: JSON.stringify({
         error,
-        body: newMedia,
       }),
     };
   }
