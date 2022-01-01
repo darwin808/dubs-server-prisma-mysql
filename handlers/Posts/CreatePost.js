@@ -43,8 +43,8 @@ exports.handler = async (event, context, callback) => {
         user_id,
         thread_id,
         page_id,
-        media: newMedia.data.uploadResult.Location || "",
-        media_small: newMedia.data.uploadResult_small.Location || "",
+        media: newMedia?.data?.uploadResult?.Location || "",
+        media_small: newMedia?.data?.uploadResult_small?.Location || "",
       },
     });
     return {
