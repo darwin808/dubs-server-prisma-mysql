@@ -27,13 +27,14 @@ exports.handler = async (event, context, callback) => {
       };
     }
     const newMedia = await axios.post(url, { file: media });
+
     const newThread = await prisma.thread.create({
       data: {
         title,
         message,
         user_id,
         page_id,
-        media: newMedia.uploadResult.Location || "",
+        media: newMedia || "",
       },
     });
     return {
@@ -48,7 +49,7 @@ exports.handler = async (event, context, callback) => {
       headers,
       body: JSON.stringify({
         error,
-        body: event.body,
+        body: newMedia,
       }),
     };
   }
