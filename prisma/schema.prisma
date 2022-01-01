@@ -17,6 +17,7 @@ model post {
   thread_id  Int
   page_id    Int
   media      String
+  media_small      String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user user  @relation(fields: [user_id] , references: [id])
@@ -30,6 +31,7 @@ model thread {
   user_id    Int
   page_id    Int
   media      String
+  media_small      String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   posts post[]
