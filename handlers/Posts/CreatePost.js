@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { default: axios } = require("axios");
 
 const prisma = new PrismaClient();
 const headers = {
@@ -6,8 +7,11 @@ const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Methods": "POST",
 };
+
+const url = process.env.UPLOAD_URL;
+
 exports.handler = async (event, context, callback) => {
-  const { title, message, user_id, thread_id, page_id } = JSON.parse(
+  const { title, message, user_id, thread_id, page_id, media } = JSON.parse(
     event.body
   );
   try {
@@ -30,6 +34,7 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
+    const newMedia = await axios.post(url, { file: media });
 
     const newPost = await prisma.post.create({
       data: {
@@ -38,12 +43,14 @@ exports.handler = async (event, context, callback) => {
         user_id,
         thread_id,
         page_id,
+        media: newMedia.data.uploadResult.Location || "",
+        media_small: newMedia.data.uploadResult_small.Location || "",
       },
     });
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ newPost }),
+      body: JSON.stringify({ newPost, msg: "SUCCESS" }),
     };
   } catch (error) {
     console.log(error);

@@ -8,7 +8,8 @@ const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Methods": "POST",
 };
-const url = "https://65pybfy0kk.execute-api.us-west-1.amazonaws.com/dev/images";
+const url = process.env.UPLOAD_URL;
+
 exports.handler = async (event, context, callback) => {
   const { title, message, user_id, page_id, media } = JSON.parse(event.body);
   try {
@@ -41,7 +42,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ newThread }),
+      body: JSON.stringify({ newThread, msg: "SUCCESS" }),
     };
   } catch (error) {
     console.log(error);
