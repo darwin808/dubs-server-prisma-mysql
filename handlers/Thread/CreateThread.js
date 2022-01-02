@@ -10,30 +10,20 @@ const headers = {
 };
 const url = process.env.UPLOAD_URL;
 
+const userUrl =
+  "https://dls4p0djl3.execute-api.us-west-2.amazonaws.com/dev/user";
 exports.handler = async (event, context, callback) => {
-  const { title, message, user_id, page_id, media } = JSON.parse(event.body);
+  const { title, message, page_id, media } = JSON.parse(event.body);
+  const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
-    const isUserExist = await prisma.user.findUnique({
-      where: {
-        id: user_id,
-      },
-    });
-    if (!isUserExist) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({
-          message: "no user",
-        }),
-      };
-    }
+    const createdUser = await axios.post(userUrl, { username, ipAddress });
     const newMedia = await axios.post(url, { file: media });
 
     const newThread = await prisma.thread.create({
       data: {
         title,
         message,
-        user_id,
+        user_id: Number(createdUser.data.user.id) || 2,
         page_id,
         media: newMedia.data.uploadResult.Location || "",
         media_small: newMedia.data.uploadResult_small.Location || "",

@@ -8,21 +8,37 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { username } = JSON.parse(event.body);
+  const { username, ipAddress } = JSON.parse(event.body);
+  // const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
-    const newUser = await prisma.user.create({
-      data: {
-        username,
+    const isUserExist = await prisma.user.findUnique({
+      where: {
+        ipAddress,
       },
     });
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        newUser,
-        event: event.headers["X-Forwarded-For"].split(", ")[0],
-      }),
-    };
+    if (!isUserExist) {
+      const username = `Anonymous - ${ipAddress}`;
+      const newUser = await prisma.user.create({
+        data: {
+          username,
+        },
+      });
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          user: newUser,
+        }),
+      };
+    } else {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          user: isUserExist,
+        }),
+      };
+    }
   } catch (error) {
     console.log(error);
     return {
