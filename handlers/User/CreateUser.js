@@ -5,23 +5,26 @@ const prisma = new PrismaClient();
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Content-Type": "application/json",
-  "Access-Control-Allow-Methods": "GET",
+  "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { id } = event.pathParameters;
+  const { username } = JSON.parse(event.body);
   try {
-    const posts = await prisma.post.findMany({
-      where: {
-        thread_id: parseInt(id),
+    const newUser = await prisma.user.create({
+      data: {
+        username,
       },
     });
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ posts }),
+      body: JSON.stringify({
+        newUser,
+        event: event.headers["X-Forwarded-For"].split(", ")[0],
+      }),
     };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return {
       statusCode: 500,
       headers,

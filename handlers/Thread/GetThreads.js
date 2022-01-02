@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
-
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Content-Type": "application/json",
@@ -10,15 +9,15 @@ const headers = {
 exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
   try {
-    const posts = await prisma.post.findMany({
+    const thread = await prisma.thread.findMany({
       where: {
-        thread_id: parseInt(id),
+        page_id: parseInt(id),
       },
     });
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ posts }),
+      body: JSON.stringify({ thread }),
     };
   } catch (error) {
     console.error(error);

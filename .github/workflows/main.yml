@@ -1,10 +1,10 @@
-name: delkjdlwkjdlsjsldkjlkdfjslkdjfl
+name: delkjd
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
   push:
-    branches: [dev]
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,6 +32,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+
+      - name: initialize the prisma
+        run: yarn prisma:generate
 
       - name: serverless deploy
         uses: serverless/github-action@master
