@@ -18,7 +18,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ newUser }),
+      body: JSON.stringify({ newUser, event }),
     };
   } catch (error) {
     console.log(error);
