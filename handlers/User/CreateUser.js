@@ -17,10 +17,10 @@ exports.handler = async (event, context, callback) => {
       },
     });
     if (!isUserExist) {
-      const username = `Anonymous - ${ipAddress}`;
       const newUser = await prisma.user.create({
         data: {
           username,
+          ipAddress,
         },
       });
       return {
