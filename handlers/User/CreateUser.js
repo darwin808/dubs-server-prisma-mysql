@@ -8,7 +8,8 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { username, ipAddress } = JSON.parse(event.body);
+  const { ipAddress } = JSON.parse(event.body);
+  const username = `Anonymous - ${ipAddress}`;
   // const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
     const isUserExist = await prisma.user.findUnique({

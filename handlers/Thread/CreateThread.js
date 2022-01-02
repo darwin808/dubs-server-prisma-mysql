@@ -16,7 +16,7 @@ exports.handler = async (event, context, callback) => {
   const { title, message, page_id, media } = JSON.parse(event.body);
   const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
-    const createdUser = await axios.post(userUrl, { username, ipAddress });
+    const createdUser = await axios.post(userUrl, { ipAddress });
     const newMedia = await axios.post(url, { file: media });
 
     const newThread = await prisma.thread.create({
