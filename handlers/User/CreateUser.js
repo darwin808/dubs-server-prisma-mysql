@@ -10,7 +10,6 @@ const headers = {
 exports.handler = async (event, context, callback) => {
   const { ipAddress } = JSON.parse(event.body);
   const username = `Anonymous - ${ipAddress}`;
-  // const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
     const isUserExist = await prisma.user.findUnique({
       where: {

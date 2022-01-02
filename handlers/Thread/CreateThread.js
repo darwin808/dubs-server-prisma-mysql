@@ -8,10 +8,10 @@ const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Methods": "POST",
 };
-const url = process.env.UPLOAD_URL;
 
-const userUrl =
-  "https://dls4p0djl3.execute-api.us-west-2.amazonaws.com/dev/user";
+const url = process.env.UPLOAD_URL;
+const userUrl = process.env.API + "/user";
+
 exports.handler = async (event, context, callback) => {
   const { title, message, page_id, media } = JSON.parse(event.body);
   const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];

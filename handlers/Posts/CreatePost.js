@@ -9,17 +9,12 @@ const headers = {
 };
 
 const url = process.env.UPLOAD_URL;
+const userUrl = process.env.API + "/user";
 
 exports.handler = async (event, context, callback) => {
-  const { title, message, user_id, thread_id, page_id, media } = JSON.parse(
-    event.body
-  );
+  const { title, message, thread_id, page_id, media } = JSON.parse(event.body);
+  const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
-    const isUserExist = await prisma.user.findUnique({
-      where: {
-        id: user_id,
-      },
-    });
     const isThreadExist = await prisma.thread.findUnique({
       where: {
         id: thread_id,
@@ -34,13 +29,14 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
+    const createdUser = await axios.post(userUrl, { ipAddress });
     const newMedia = await axios.post(url, { file: media });
 
     const newPost = await prisma.post.create({
       data: {
         title,
         message,
-        user_id,
+        user_id: Number(createdUser.data.user.id) || 2,
         thread_id,
         page_id,
         media: newMedia.data.uploadResult.Location || "",
