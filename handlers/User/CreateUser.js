@@ -18,7 +18,10 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ newUser, event }),
+      body: JSON.stringify({
+        newUser,
+        event: event.headers["X-Forwarded-For"].split(", ")[0],
+      }),
     };
   } catch (error) {
     console.log(error);
