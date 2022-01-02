@@ -20,7 +20,7 @@ exports.handler = async (event, context, callback) => {
         id: thread_id,
       },
     });
-    if (!isUserExist || !isThreadExist) {
+    if (!isThreadExist) {
       return {
         statusCode: 400,
         headers,
