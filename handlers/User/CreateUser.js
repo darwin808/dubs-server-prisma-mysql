@@ -11,9 +11,9 @@ exports.handler = async (event, context, callback) => {
   const { username, ipAddress } = JSON.parse(event.body);
   // const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
   try {
-    const isUserExist = await prisma.user.findUnique({
+    const isUserExist = await prisma.user.fin({
       where: {
-        ipAddress: JSON.stringify(ipAddress),
+        username: "1231231231",
       },
     });
     if (!isUserExist) {
