@@ -13,7 +13,7 @@ exports.handler = async (event, context, callback) => {
   try {
     const isUserExist = await prisma.user.findUnique({
       where: {
-        username: "1231231231",
+        ipAddress,
       },
     });
     if (!isUserExist) {
