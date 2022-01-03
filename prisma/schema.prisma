@@ -20,7 +20,7 @@ model post {
   media      String?
   media_small      String?
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
   user user  @relation(fields: [user_id] , references: [id])
   thread thread  @relation(fields: [thread_id] , references: [id])
 }
@@ -34,7 +34,7 @@ model thread {
   media      String?
   media_small      String?
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
   posts post[]
   user user  @relation(fields: [user_id] , references: [id])
 }
@@ -44,7 +44,7 @@ model user {
   username   String   
   ipAddress  String   @unique
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
   posts post[]
   thread thread[]
 }
