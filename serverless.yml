@@ -60,6 +60,13 @@ functions:
           method: POST
           path: /user
           cors: true
+  GetUser:
+    handler: handlers/User/GetUser.handler
+    events:
+      - http:
+          method: GET
+          path: /user/{id}
+          cors: true
 
 # only include the Prisma binary required on AWS Lambda while packaging
 package:
