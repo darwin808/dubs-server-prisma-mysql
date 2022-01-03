@@ -10,11 +10,14 @@ exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
   const q1 = event.queryStringParameters;
   const { page, perPage } = event.queryStringParameters || 1;
+  const currentPage = +page || 1;
+  const itemsPerPage = +perPage || 10;
+
   try {
     const totalItems = await prisma.thread.findMany();
     const thread = await prisma.thread.findMany({
-      take: parseInt(perPage),
-      skip: parseInt(perPage * (page - 1)),
+      take: itemsPerPage,
+      skip: itemsPerPage * (currentPage - 1),
       where: {
         page_id: parseInt(id),
       },
