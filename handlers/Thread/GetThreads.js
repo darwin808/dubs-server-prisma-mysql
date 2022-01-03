@@ -10,6 +10,7 @@ exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
   try {
     const thread = await prisma.thread.findMany({
+      take: 5,
       where: {
         page_id: parseInt(id),
       },
