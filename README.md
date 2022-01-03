@@ -26,7 +26,7 @@ media_small
 1,
 2,
 'https://picsum.photos/200',
-'https://picsum.photos/200'
+'https://picsum.photos/800'
 
 FROM generate_series(1,9000);
 
