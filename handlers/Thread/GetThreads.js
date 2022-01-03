@@ -8,6 +8,7 @@ const headers = {
 };
 exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
+  const q1 = event.queryStringParameters;
   try {
     const totalItems = await prisma.thread.findMany();
     const thread = await prisma.thread.findMany({
@@ -20,7 +21,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ thread, totalItems: totalItems.length() }),
+      body: JSON.stringify({ thread, totalItems: totalItems.length, q1 }),
     };
   } catch (error) {
     console.error(error);
