@@ -10,7 +10,7 @@ exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
   try {
     const users = await prisma.user.findUnique({
-      where: { id },
+      where: { id: +id },
       include: { posts: true, thread: true },
     });
     return {
