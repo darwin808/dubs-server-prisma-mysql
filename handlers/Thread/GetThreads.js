@@ -15,7 +15,7 @@ exports.handler = async (event, context, callback) => {
     const itemsPerPage = +perPage || 10;
     const sort = "asc";
     const totalItems = await prisma.thread.findMany();
-    const lastPage = Math.ceil(totalItems / itemsPerPage);
+    const lastPage = await Math.ceil(totalItems / itemsPerPage);
 
     const thread = await prisma.thread.findMany({
       take: itemsPerPage,
