@@ -8,12 +8,13 @@ const headers = {
 };
 exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
-  const q1 = event.queryStringParameters;
+  const query = event.queryStringParameters;
+  const { perPage, page } = query;
   try {
     const totalItems = await prisma.thread.findMany();
     const thread = await prisma.thread.findMany({
-      take: 10,
-      skip: 10,
+      take: perPage,
+      skip: perPage * (page - 1),
       where: {
         page_id: parseInt(id),
       },
@@ -21,7 +22,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ thread, totalItems: totalItems.length, q1 }),
+      body: JSON.stringify({ thread, totalItems: totalItems.length(), query }),
     };
   } catch (error) {
     console.error(error);
