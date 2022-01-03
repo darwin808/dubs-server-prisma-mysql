@@ -9,12 +9,12 @@ const headers = {
 exports.handler = async (event, context, callback) => {
   const { id } = event.pathParameters;
   const query = event.queryStringParameters;
-  const { perPage, page } = query;
+  // const { perPage, page } = query;
   try {
     const totalItems = await prisma.thread.findMany();
     const thread = await prisma.thread.findMany({
-      take: perPage,
-      skip: perPage * (page - 1),
+      // take: perPage,
+      // skip: perPage * (page - 1),
       where: {
         page_id: parseInt(id),
       },
