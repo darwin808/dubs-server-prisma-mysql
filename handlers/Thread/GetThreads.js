@@ -13,8 +13,8 @@ exports.handler = async (event, context, callback) => {
   try {
     const totalItems = await prisma.thread.findMany();
     const thread = await prisma.thread.findMany({
-      take: 10,
-      skip: 10,
+      take: parseInt(perPage),
+      skip: parseInt(perPage * (page - 1)),
       where: {
         page_id: parseInt(id),
       },
