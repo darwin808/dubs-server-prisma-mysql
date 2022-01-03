@@ -37,7 +37,7 @@ functions:
     events:
       - http:
           method: GET
-          path: /thread/search1
+          path: /thread/search
           cors: true
   CreateThread:
     handler: handlers/Thread/CreateThread.handler
