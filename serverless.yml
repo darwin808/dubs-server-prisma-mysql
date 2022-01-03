@@ -32,6 +32,13 @@ functions:
           method: GET
           path: /thread/{id}
           cors: true
+  SearchThreads:
+    handler: handlers/Thread/SearchThreads.handler
+    events:
+      - http:
+          method: GET
+          path: /thread/search
+          cors: true
   CreateThread:
     handler: handlers/Thread/CreateThread.handler
     events:
