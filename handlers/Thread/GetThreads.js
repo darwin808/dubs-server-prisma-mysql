@@ -7,19 +7,24 @@ const headers = {
   "Access-Control-Allow-Methods": "GET",
 };
 exports.handler = async (event, context, callback) => {
-  const { id } = event.pathParameters;
-  const q1 = event.queryStringParameters;
-  const { page, perPage } = event.queryStringParameters || 1;
-  const currentPage = +page || 1;
-  const itemsPerPage = +perPage || 10;
-
   try {
+    const { id } = event.pathParameters;
+    const { page, perPage } = event.queryStringParameters || 1;
+
+    const currentPage = +page || 1;
+    const itemsPerPage = +perPage || 10;
+    const sort = "asc";
     const totalItems = await prisma.thread.findMany();
+    const lastPage = Math.ceil(totalItems / itemsPerPage);
+
     const thread = await prisma.thread.findMany({
       take: itemsPerPage,
       skip: itemsPerPage * (currentPage - 1),
       where: {
         page_id: parseInt(id),
+      },
+      orderBy: {
+        createdAt: sort,
       },
     });
     return {
@@ -28,9 +33,10 @@ exports.handler = async (event, context, callback) => {
       body: JSON.stringify({
         thread,
         totalItems: totalItems.length,
-        q1,
-        page,
-        perPage,
+        currentPage,
+        itemsPerPage,
+        lastPage,
+        sort,
       }),
     };
   } catch (error) {
@@ -38,7 +44,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify(error),
+      body: JSON.stringify({ error, msg: "Try Again" }),
     };
   }
 };
