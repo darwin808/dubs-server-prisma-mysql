@@ -7,6 +7,7 @@ provider:
   region: us-west-2
   runtime: nodejs12.x
   stage: dev
+  timeout: 180
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
 
