@@ -13,7 +13,7 @@ exports.handler = async (event, context, callback) => {
 
     const currentPage = +page || 1;
     const itemsPerPage = +perPage || 10;
-    const sort = "asc";
+    const sort = "desc";
     const totalItems = await prisma.thread.count();
     const lastPage = await Math.ceil(totalItems / itemsPerPage);
 
