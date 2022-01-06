@@ -47,6 +47,13 @@ functions:
           method: POST
           path: /thread
           cors: true
+  DeleteThread:
+    handler: handlers/Thread/DeleteThread.handler
+    events:
+      - http:
+          method: DELETE
+          path: /thread/{id}
+          cors: true
   GetUsers:
     handler: handlers/User/GetUsers.handler
     events:
