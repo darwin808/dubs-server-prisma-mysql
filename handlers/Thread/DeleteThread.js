@@ -15,7 +15,6 @@ exports.handler = async (event, context, callback) => {
         ipAddress,
       },
     });
-    console.log(id, findUser);
     if (!findUser) {
       return {
         statusCode: 400,
