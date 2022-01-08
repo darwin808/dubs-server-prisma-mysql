@@ -9,7 +9,8 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 
-const url = process.env.UPLOAD_URL;
+const imageUrl = process.env.UPLOAD_URL;
+const videoUrl = process.env.VIDEO_UPLOAD_URL;
 const userUrl = process.env.API + "/user";
 
 exports.handler = async (event, context, callback) => {
@@ -17,8 +18,9 @@ exports.handler = async (event, context, callback) => {
     const { title, message, page_id, media } = JSON.parse(event.body);
     const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
 
+    const isImage = media.file.includes("image") ? imageUrl : videoUrl;
     const createdUser = await axios.post(userUrl, { ipAddress });
-    const newMedia = await axios.post(url, { file: media });
+    const newMedia = await axios.post(isImage, { file: media });
 
     const newThread = await prisma.thread.create({
       data: {
