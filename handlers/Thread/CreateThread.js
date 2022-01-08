@@ -18,7 +18,7 @@ exports.handler = async (event, context, callback) => {
     const { title, message, page_id, media } = JSON.parse(event.body);
     const ipAddress = event.headers["X-Forwarded-For"].split(", ")[0];
 
-    const isImage = media.file.includes("image") ? imageUrl : videoUrl;
+    const isImage = media && media.file.includes("image") ? imageUrl : videoUrl;
     const createdUser = await axios.post(userUrl, { ipAddress });
     const newMedia = await axios.post(isImage, { file: media });
 
