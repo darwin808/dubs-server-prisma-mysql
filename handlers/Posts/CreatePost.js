@@ -8,7 +8,8 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 
-const url = process.env.UPLOAD_URL;
+const imageUrl = process.env.UPLOAD_URL;
+const videoUrl = process.env.VIDEO_UPLOAD_URL;
 const userUrl = process.env.API + "/user";
 
 exports.handler = async (event, context, callback) => {
@@ -29,8 +30,9 @@ exports.handler = async (event, context, callback) => {
         }),
       };
     }
+    const isImage = media && media.includes("image") ? imageUrl : videoUrl;
     const createdUser = await axios.post(userUrl, { ipAddress });
-    const newMedia = await axios.post(url, { file: media });
+    const newMedia = await axios.post(isImage, { file: media });
 
     const newPost = await prisma.post.create({
       data: {
@@ -39,8 +41,8 @@ exports.handler = async (event, context, callback) => {
         user_id: Number(createdUser.data.user.id) || 2,
         thread_id,
         page_id,
-        media: newMedia.data.uploadResult.Location || "",
-        media_small: newMedia.data.uploadResult_small.Location || "",
+        media: newMedia?.data?.uploadResult?.Location || "",
+        media_small: newMedia?.data?.uploadResult_small?.Location || "",
       },
     });
 
