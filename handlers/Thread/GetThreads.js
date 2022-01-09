@@ -1,19 +1,12 @@
 const { PrismaClient } = require("@prisma/client");
-const { createClient } = require("redis");
-
-const redis_url = `redis://:12345678@${process.env.REDIS_HOSTNAME}:17028`;
 
 const prisma = new PrismaClient();
-const redis = createClient({
-  URL: redis_url,
-});
 
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Content-Type": "application/json",
   "Access-Control-Allow-Methods": "GET",
 };
-
 exports.handler = async (event, context, callback) => {
   try {
     const { id } = event.pathParameters;
@@ -23,25 +16,6 @@ exports.handler = async (event, context, callback) => {
     const sort = "desc";
     const totalItems = await prisma.thread.count();
     const lastPage = await Math.ceil(totalItems / itemsPerPage);
-
-    redis.on("error", (err) => console.log("Redis Client Error", err));
-    await redis.connect();
-
-    const cachedPost = await redis.get(id);
-    console.log(cachedPost, "wwwwwwwwwwwwwwwwwwwwwww");
-    if (cachedPost)
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          threads: cachedPost,
-          totalItems: totalItems,
-          currentPage,
-          itemsPerPage,
-          lastPage,
-          sort,
-        }),
-      };
 
     const threads = await prisma.thread.findMany({
       take: itemsPerPage,
@@ -53,8 +27,6 @@ exports.handler = async (event, context, callback) => {
         createdAt: sort,
       },
     });
-
-    redis.set(id, JSON.stringify(threads));
 
     return {
       statusCode: 200,

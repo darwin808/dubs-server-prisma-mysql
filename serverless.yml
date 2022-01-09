@@ -1,6 +1,7 @@
 service: dubsserver3
 plugins:
   - serverless-dotenv-plugin
+  - serverless-offline
 
 provider:
   name: aws
@@ -83,3 +84,6 @@ package:
     - "node_modules/.prisma/client/libquery_engine-rhel-*"
     - "!node_modules/prisma/libquery_engine-*"
     - "!node_modules/@prisma/engines/**"
+custom:
+  serverless-offline:
+    httpPort: 4000
