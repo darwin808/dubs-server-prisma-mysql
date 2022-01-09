@@ -44,7 +44,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error, msg: "Try Again." }),
+      body: JSON.stringify({ error, msg: "Try Again" }),
     };
   }
 };
