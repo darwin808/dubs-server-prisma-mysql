@@ -17,7 +17,7 @@ exports.handler = async (event, context, callback) => {
     const totalItems = await prisma.thread.count();
     const lastPage = await Math.ceil(totalItems / itemsPerPage);
 
-    const thread = await prisma.thread.findMany({
+    const threads = await prisma.thread.findMany({
       take: itemsPerPage,
       skip: itemsPerPage * (currentPage - 1),
       where: {
@@ -31,7 +31,7 @@ exports.handler = async (event, context, callback) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        thread,
+        threads,
         totalItems: totalItems,
         currentPage,
         itemsPerPage,
