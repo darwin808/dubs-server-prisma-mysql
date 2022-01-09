@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const { createClient } = require("redis");
 
 const prisma = new PrismaClient();
-const redis = redis.createClient({
+const redis = createClient({
   host: process.env.REDIS_HOSTNAME,
   port: process.env.REDIS_PORT,
   password: process.env.REDIS_PASSWORD,
