@@ -76,6 +76,13 @@ functions:
           method: GET
           path: /user/{id}
           cors: true
+  RegisterAdmin:
+    handler: handlers/Admin/Register.handler
+    events:
+      - http:
+          method: POST
+          path: /admin/register
+          cors: true
 
 # only include the Prisma binary required on AWS Lambda while packaging
 package:
