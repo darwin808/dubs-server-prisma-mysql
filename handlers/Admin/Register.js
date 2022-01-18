@@ -8,7 +8,7 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { email, password, username } = req.body;
+  const { email, password, username } = event.body;
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
 
