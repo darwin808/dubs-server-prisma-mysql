@@ -13,7 +13,7 @@ exports.handler = async (event, context, callback) => {
   // const hashPassword = await bcrypt.hash(password, salt);
 
   try {
-    console.log(email, password.username);
+    console.log(email, password, username);
     // const isEmailExist = await prisma.user.findUnique({ where: { email } });
     // if (isEmailExist) {
     //   return {
@@ -25,8 +25,10 @@ exports.handler = async (event, context, callback) => {
     const newUser = await prisma.user.create({
       data: {
         username: "123",
-        email: "123",
+        ipAddress: "123123",
+        email: "123fjf23yyy4y2",
         password: "123",
+        role: "123",
       },
     });
 
