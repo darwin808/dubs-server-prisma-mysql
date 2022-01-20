@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
-
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
 const headers = {
@@ -8,43 +9,44 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { ipAddress } = JSON.parse(event.body);
-  const username = `Anonymous - ${ipAddress}`;
+  const { email, password } = JSON.parse(event.body);
+
   try {
-    const isUserExist = await prisma.user.findUnique({
-      where: {
-        ipAddress,
-      },
-    });
-    if (!isUserExist) {
-      const newUser = await prisma.user.create({
-        data: {
-          username,
-          ipAddress,
-        },
-      });
+    const user = await prisma.admins.findUnique({ where: { email } });
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!user) {
       return {
-        statusCode: 200,
+        statusCode: 400,
         headers,
-        body: JSON.stringify({
-          user: newUser,
-        }),
-      };
-    } else {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          user: isUserExist,
-        }),
+        body: JSON.stringify({ error: "User not Found" }),
       };
     }
+    if (!checkPassword) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: "wrong password" }),
+      };
+    }
+    const token = jwt.sign({ id: user.id }, "secret");
+    // res.cookie("jwt", token, {
+    //   httpOnly: true,
+    //   maxAge: 24 * 60 * 60 * 1000,
+    // });
+    return {
+      statusCode: 200,
+      headers: { ...headers, "Set-Cookie": token },
+      body: JSON.stringify({
+        success: "ok",
+        data: user,
+      }),
+    };
   } catch (error) {
     console.log(error);
     return {
-      statusCode: 500,
+      statusCode: 400,
       headers,
-      body: JSON.stringify(error),
+      body: JSON.stringify({ error }),
     };
   }
 };

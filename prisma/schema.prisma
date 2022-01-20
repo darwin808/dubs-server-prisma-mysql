@@ -48,3 +48,15 @@ model user {
   posts post[]
   thread thread[]
 }
+
+model admins {
+  id         Int      @id @default(autoincrement()) 
+  username   String   
+  password   String   
+  role       String
+  email      String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+

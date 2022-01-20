@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 
+const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
 
 const headers = {
@@ -8,43 +9,32 @@ const headers = {
   "Access-Control-Allow-Methods": "POST",
 };
 exports.handler = async (event, context, callback) => {
-  const { ipAddress } = JSON.parse(event.body);
-  const username = `Anonymous - ${ipAddress}`;
+  const cookie = event.headers.cookie;
   try {
-    const isUserExist = await prisma.user.findUnique({
-      where: {
-        ipAddress,
-      },
-    });
-    if (!isUserExist) {
-      const newUser = await prisma.user.create({
-        data: {
-          username,
-          ipAddress,
-        },
-      });
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          user: newUser,
-        }),
-      };
-    } else {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          user: isUserExist,
-        }),
-      };
-    }
-  } catch (error) {
-    console.log(error);
+    console.log(jwt.verify(JSON.stringify(cookie), "secret"));
+    // const claims = jwt.verify(cookie, "secret");
+    // if (!claims) {
+    //   return res.status(401);
+    // }
+    // const user = await User.findOne({ _id: claims._id });
+    // const { password, ...data } = await user.toJSON();
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers,
-      body: JSON.stringify(error),
+      body: JSON.stringify({
+        success: "ok",
+        data: { cookie },
+      }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({
+        error,
+        cookie,
+        cookie: "eroro",
+      }),
     };
   }
 };
